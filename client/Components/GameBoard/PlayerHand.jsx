@@ -92,7 +92,7 @@ class PlayerHand extends React.Component {
 
             let transform = `rotate(${rotation}deg)`;
             if(this.state.currentMouseOver === cardIndex) {
-                transform = ' translate(0, -75px) scale(2)';
+                transform = ' translate(0, -100px) scale(3)';
             }
 
             style.transform = transform;
