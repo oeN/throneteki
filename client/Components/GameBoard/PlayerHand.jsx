@@ -58,7 +58,7 @@ class PlayerHand extends React.Component {
 
     onCardMouseOver(cardIndex, card) {
         this.timeout = setTimeout(() => {
-            this.setState({ currentMouseOver: cardIndex});
+            this.setState({ currentMouseOver: cardIndex });
         }, 300);
 
         if(this.props.onMouseOver) {
@@ -70,7 +70,7 @@ class PlayerHand extends React.Component {
         clearTimeout(this.timeout);
 
         if(this.state.currentMouseOver === cardIndex) {
-            this.setState({ currentMouseOver: undefined});
+            this.setState({ currentMouseOver: undefined });
         }
 
         if(this.props.onMouseOut) {
@@ -88,11 +88,11 @@ class PlayerHand extends React.Component {
 
         let hand = _.map(cards, card => {
             let style = {};
-            let rotation = ((90 / _.size(cards)) * (cardIndex++ - 1)) - 30;
+            let rotation = ((90 / _.size(cards)) * (cardIndex++ - 1)) - 25;
 
             let transform = `rotate(${rotation}deg)`;
             if(this.state.currentMouseOver === cardIndex) {
-                transform += ' translate(0, -75px) scale(2)';
+                transform = ' translate(0, -75px) scale(2)';
             }
 
             style.transform = transform;
