@@ -455,8 +455,20 @@
 }
 
 .hand {
+  margin-left: 50px;
+
+  width: 160px;
+
   .card-wrapper {
+    position: absolute;
     margin: 0 5px 0 0;
+
+    left: 50px;
+
+    z-index: @layer-cards;
+
+    transform-origin: 50% 100%;
+    transition: transform 0.3s ease-in-out;
   }
 }
 
@@ -508,6 +520,7 @@
 }
 
 .inset-pane {
+  z-index: 1;
   display: flex;
   flex-direction: column;
   width: 210px;
@@ -660,44 +673,40 @@ span.down-arrow {
 .hand {
   &.small {
     height: @card-sm-height;
-    width: @card-sm-width * 5 + (5 * 5);
+   // width: @card-sm-width * 5 + (5 * 5);
 
     &.squish {
-      width: @card-sm-width * 5;
+     // width: @card-sm-width * 5;
     }
   }
 
   &.large {
     height: @card-lg-height;
-    width: @card-lg-width * 5 + (5 * 5);
+   // width: @card-lg-width * 5 + (5 * 5);
 
     &.squish {
-      width: @card-lg-width * 5;
+    //  width: @card-lg-width * 5;
     }
   }
 
   &.x-large {
     height: @card-xl-height;
-    width: @card-xl-width * 5 + (5 * 5);
+   // width: @card-xl-width * 5 + (5 * 5);
 
     &.squish {
-      width: @card-xl-width * 5;
+    //  width: @card-xl-width * 5;
     }
   }
 
   height: @card-height;
-  width: (@card-width * 5) + (5 * 5);
+ // width: (@card-width * 5) + (5 * 5);
 
   &.squish {
-    width: @card-width * 5;
+  //  width: @card-width * 5;
   }
 
   padding: 0px;
   margin: 0px 5px;
-}
-
-.hand.squish .card-wrapper {
-  position: absolute;
 }
 
 .card-row, .hand {

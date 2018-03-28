@@ -7,6 +7,12 @@ import Card from './Card';
 import { tryParseJSON } from '../../util';
 
 class PlayerHand extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {};
+    }
+
     onDragOver(event) {
         $(event.target).addClass('highlight-panel');
         event.preventDefault();
@@ -50,33 +56,50 @@ class PlayerHand extends React.Component {
         return !this.props.isMe;
     }
 
-    getCards(needsSquish) {
+    onCardMouseOver(cardIndex, card) {
+        this.timeout = setTimeout(() => {
+            this.setState({ currentMouseOver: cardIndex});
+        }, 300);
+
+        if(this.props.onMouseOver) {
+            this.props.onMouseOver(card);
+        }
+    }
+
+    onCardMouseOut(cardIndex, card) {
+        clearTimeout(this.timeout);
+
+        if(this.state.currentMouseOver === cardIndex) {
+            this.setState({ currentMouseOver: undefined});
+        }
+
+        if(this.props.onMouseOut) {
+            this.props.onMouseOut(card);
+        }
+    }
+
+    getCards() {
         let cards = this.props.cards;
         let cardIndex = 0;
-        let handLength = cards ? cards.length : 0;
-        let cardWidth = this.getCardWidth();
-
-        let requiredWidth = handLength * cardWidth;
-        let overflow = requiredWidth - (cardWidth * 5);
-        let offset = overflow / (handLength - 1);
 
         if(!this.props.isMe) {
             cards = _.sortBy(this.props.cards, card => card.revealWhenHiddenTo);
         }
 
         let hand = _.map(cards, card => {
-            let left = (cardWidth - offset) * cardIndex++;
-
             let style = {};
-            if(needsSquish) {
-                style = {
-                    left: left + 'px'
-                };
+            let rotation = ((90 / _.size(cards)) * (cardIndex++ - 1)) - 30;
+
+            let transform = `rotate(${rotation}deg)`;
+            if(this.state.currentMouseOver === cardIndex) {
+                transform += ' translate(0, -75px) scale(2)';
             }
 
+            style.transform = transform;
+
             return (<Card key={ card.uuid } card={ card } style={ style } disableMouseOver={ this.disableMouseOver(card.revealWhenHiddenTo) } source='hand'
-                onMouseOver={ this.props.onMouseOver }
-                onMouseOut={ this.props.onMouseOut }
+                onMouseOver={ this.onCardMouseOver.bind(this, cardIndex, card) }
+                onMouseOut={ this.onCardMouseOut.bind(this, cardIndex, card) }
                 onClick={ this.props.onCardClick }
                 onDragDrop={ this.props.onDragDrop }
                 size={ this.props.cardSize } />);
@@ -85,36 +108,14 @@ class PlayerHand extends React.Component {
         return hand;
     }
 
-    getCardWidth() {
-        switch(this.props.cardSize) {
-            case 'small':
-                return 65 * 0.8;
-            case 'large':
-                return 65 * 1.4;
-            case 'x-large':
-                return 65 * 2;
-            case 'normal':
-            default:
-                return 65;
-        }
-    }
-
     render() {
-        let className = 'panel hand';
+        let className = 'hand';
 
         if(this.props.cardSize !== 'normal') {
             className += ' ' + this.props.cardSize;
         }
 
-        let cardWidth = this.getCardWidth();
-
-        let needsSquish = this.props.cards && this.props.cards.length * cardWidth > (cardWidth * 5);
-
-        if(needsSquish) {
-            className += ' squish';
-        }
-
-        let cards = this.getCards(needsSquish);
+        let cards = this.getCards();
 
         return (
             <div className={ className }
