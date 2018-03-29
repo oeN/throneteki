@@ -87,7 +87,7 @@ class PlayerHand extends React.Component {
     }
 
     onCardClick(card) {
-        this.setState({currentMouseOver: undefined});
+        this.setState({ currentMouseOver: undefined });
 
         if(this.props.onCardClick) {
             this.props.onCardClick(card);
@@ -130,8 +130,8 @@ class PlayerHand extends React.Component {
 
             return (<div className='card-wrapper' style={ rotateStyle }>
                 <Card ref={ card.uuid } key={ card.uuid } card={ card } style={ style } disableMouseOver={ this.disableMouseOver(card.revealWhenHiddenTo) } source='hand'
-                    onMouseOver={ this.onCardMouseOver.bind(this, cardIndex) }
-                    onMouseOut={ this.onCardMouseOut.bind(this, cardIndex, card) }
+                    onMouseOver={ this.onCardMouseOver.bind(this, cardIndex - 1) }
+                    onMouseOut={ this.onCardMouseOut.bind(this, cardIndex - 1, card) }
                     onClick={ this.onCardClick }
                     onDragDrop={ this.props.onDragDrop }
                     size={ this.props.cardSize } />
