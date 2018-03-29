@@ -34,9 +34,9 @@ class Card extends React.Component {
         };
     }
 
-    onMouseOver(card) {
+    onMouseOver(card, event) {
         if(this.props.onMouseOver) {
-            this.props.onMouseOver(card);
+            this.props.onMouseOver(card, event);
         }
     }
 
@@ -336,7 +336,7 @@ class Card extends React.Component {
     render() {
         if(this.props.wrapped) {
             return (
-                <div className='card-wrapper' style={ this.props.style }>
+                <div className='card-inner' style={ this.props.style }>
                     { this.getCard() }
                     { this.getDupes() }
                     { this.getAttachments() }
