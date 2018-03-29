@@ -112,7 +112,7 @@ class PlayerHand extends React.Component {
             let style = {};
             let rotateStyle = {};
             let totalAngle = 120;
-            let sideIndex = midPoint - cardIndex;
+            let sideIndex = cardIndex - midPoint;
 
             let rotation = totalAngle / numCards * sideIndex;
 
